@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h1 class="text-center my-4">Coffe menu</h1>
+
+  {% if coffee_list %}
+    <table class="table table-bordered">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">drink_type</th>
+          <th scope="col">price_small</th>
+          <th scope="col">price_medium</th>
+          <th scope="col">price_large</th>
+          <th scope="col">comment</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for drink in coffee_list %}
+          <tr>
+            <td>{{ drink.drink_type }}</td>
+            <td>{{ drink.price_small }}</td>
+            <td>{{ drink.price_medium }}</td>
+            <td>{{ drink.price_large }}</td>
+            <td>
+              {% if user_authenticated %}
+                {% for comment in comments %}
+                  {% if comment.coffee == drink %}
+                    <textarea class="form-control" aria-label="With textarea">{{ comment.text }}</textarea>
+                  {% endif %}
+                {% endfor %}
+                <textarea class="form-control" aria-label="With textarea"></textarea>
+              {% else %}
+                <textarea class="form-control" aria-label="With textarea" disabled></textarea>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  {% else %}
+    <div class="alert alert-warning" role="alert">
+      No coffe on the list =(
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
